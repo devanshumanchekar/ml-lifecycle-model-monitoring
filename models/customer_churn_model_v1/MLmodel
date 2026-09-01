@@ -1,0 +1,23 @@
+artifact_path: file:///d:/daily folder/placement/Projects/ML-Lifecycle-Model-Monitoring/notebooks/mlruns/1/models/m-17003538caa44c1caa6251c46ff3c5d9/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.skops
+    predict_fn: predict
+    python_version: 3.10.11
+  sklearn:
+    code: null
+    pickled_model: model.skops
+    serialization_format: skops
+    sklearn_version: 1.7.2
+    skops_trusted_types: null
+mlflow_version: 3.15.2
+model_id: m-17003538caa44c1caa6251c46ff3c5d9
+model_size_bytes: 170367
+model_uuid: m-17003538caa44c1caa6251c46ff3c5d9
+prompts: null
+run_id: b9f923f4109a430c8ba376b6d1408f47
+utc_time_created: '2026-08-27 07:27:44.500321'
