@@ -30,7 +30,7 @@ VALID_CUSTOMER = {
 
 
 def test_health_endpoint():
-    response = client.get("/health")
+    response = client.get("/api/v1/health")
 
     assert response.status_code == 200
 
@@ -43,7 +43,7 @@ def test_health_endpoint():
 
 def test_prediction_endpoint():
     response = client.post(
-        "/predict",
+        "/api/v1/predict",
         json=VALID_CUSTOMER,
     )
 
@@ -63,7 +63,7 @@ def test_invalid_customer_input():
     invalid_customer["SeniorCitizen"] = 2
 
     response = client.post(
-        "/predict",
+        "/api/v1/predict",
         json=invalid_customer,
     )
 
