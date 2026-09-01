@@ -1,20 +1,53 @@
-from pathlib import Path
-
 import pandas as pd
 
-from monitoring.monitor import (
-    run_drift_monitoring,
-    evaluate_model_performance,
-)
+from monitoring import monitor
 
 
-def test_run_drift_monitoring():
+DATASET_PATH = "data/WA_Fn-UseC_-Telco-Customer-Churn.csv"
 
-    current_data = pd.read_csv(
-        "data/production_data.csv"
+
+def load_clean_dataset():
+    data = pd.read_csv(DATASET_PATH)
+
+    data["TotalCharges"] = pd.to_numeric(
+        data["TotalCharges"],
+        errors="coerce",
     )
 
-    result = run_drift_monitoring(
+    data = data.dropna(
+        subset=["TotalCharges"]
+    )
+
+    return data
+
+
+def test_run_drift_monitoring(tmp_path, monkeypatch):
+    data = load_clean_dataset()
+
+    reference_data = data.drop(
+        columns=["customerID", "Churn"]
+    ).head(500).copy()
+
+    current_data = data.drop(
+        columns=["customerID", "Churn"]
+    ).head(500).copy()
+
+    reference_path = (
+        tmp_path / "reference_data.csv"
+    )
+
+    reference_data.to_csv(
+        reference_path,
+        index=False,
+    )
+
+    monkeypatch.setattr(
+        monitor,
+        "REFERENCE_PATH",
+        reference_path,
+    )
+
+    result = monitor.run_drift_monitoring(
         current_data
     )
 
@@ -24,12 +57,14 @@ def test_run_drift_monitoring():
 
 
 def test_evaluate_model_performance():
+    data = load_clean_dataset()
 
-    labeled_data = pd.read_csv(
-        "data/production_labeled_data.csv"
-    )
+    labeled_data = data.sample(
+        n=100,
+        random_state=42,
+    ).copy()
 
-    result = evaluate_model_performance(
+    result = monitor.evaluate_model_performance(
         labeled_data
     )
 
