@@ -12,3 +12,11 @@ mlruns/
 
 .env
 .env.*
+# Generated monitoring datasets and reports
+data/production_data.csv
+data/drifted_production_data.csv
+data/production_labeled_data.csv
+data/reference_data.csv
+
+monitoring/drift_report.json
+monitoring/performance_report.json
